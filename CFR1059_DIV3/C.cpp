@@ -1,0 +1,147 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define ld long double
+#define pb push_back
+#define vi vector<int>
+#define vll vector<ll>
+#define pii pair<int, int>
+#define pll pair<ll, ll>
+#define all(x) (x).begin(), (x).end()
+#define ff first
+#define ss second
+
+#define FOR(i, a, b) for (ll i = a; i < b; i++)
+#define RFOR(i, a, b) for (ll i = a; i > b; i--)
+
+#ifndef ONLINE_JUDGE
+#define debug(x)         \
+    cerr << #x << " = "; \
+    _print(x);           \
+    cerr << endl;
+#else
+#define debug(x)
+#endif
+
+void _print(int x) { cerr << x; }
+void _print(ll x) { cerr << x; }
+void _print(ld x) { cerr << x; }
+void _print(char x) { cerr << x; }
+void _print(string x) { cerr << x; }
+void _print(bool x) { cerr << (x ? "true" : "false"); }
+
+template <class T, class V>
+void _print(pair<T, V> p);
+template <class T>
+void _print(vector<T> v);
+template <class T>
+void _print(set<T> v);
+template <class T, class V>
+void _print(map<T, V> v);
+template <class T>
+void _print(multiset<T> v);
+
+template <class T, class V>
+void _print(pair<T, V> p)
+{
+    cerr << "{";
+    _print(p.ff);
+    cerr << ", ";
+    _print(p.ss);
+    cerr << "}";
+}
+template <class T>
+void _print(vector<T> v)
+{
+    cerr << "[ ";
+    for (T i : v)
+    {
+        _print(i);
+        cerr << " ";
+    }
+    cerr << "]";
+}
+template <class T>
+void _print(set<T> v)
+{
+    cerr << "[ ";
+    for (T i : v)
+    {
+        _print(i);
+        cerr << " ";
+    }
+    cerr << "]";
+}
+template <class T>
+void _print(multiset<T> v)
+{
+    cerr << "[ ";
+    for (T i : v)
+    {
+        _print(i);
+        cerr << " ";
+    }
+    cerr << "]";
+}
+template <class T, class V>
+void _print(map<T, V> v)
+{
+    cerr << "[ ";
+    for (auto i : v)
+    {
+        _print(i);
+        cerr << " ";
+    }
+    cerr << "]";
+}
+int msbPos(long long n)
+{
+    int pos = -1;
+    while (n > 0)
+    {
+        n >>= 1;
+        pos++;
+    }
+    return pos;
+}
+
+void solve()
+{
+    ll a;
+    ll b;
+    cin >> a >> b;
+    if (msbPos(b) > msbPos(a))
+    {
+        cout << -1 << endl;
+        return;
+    }
+    ll x = a ^ b;
+    if (x < a)
+    {
+        cout << 1 << endl;
+        cout << x << endl;
+        return;
+    }
+    else if (x == a)
+    {
+        cout << 0 << endl;
+        return;
+    }
+    ll y = pow(2, msbPos(a));
+    ll z = x ^ y;
+    cout << 2 << endl;
+    cout << min(y, z) << " " << max(y, z) << endl;
+    return;
+}
+
+int main()
+{
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    int t = 1;
+    cin >> t;
+    while (t--)
+        solve();
+    return 0;
+}

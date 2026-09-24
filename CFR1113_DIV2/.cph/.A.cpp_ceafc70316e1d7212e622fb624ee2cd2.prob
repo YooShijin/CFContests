@@ -1,0 +1,1 @@
+{"name":"Local: A","url":"/home/asmit/Desktop/ProCoding/CFContests/CFR1113_DIV2/A.cpp","tests":[{"id":1785595084817,"input":"4\n101\n11001\n0010\n0101010000010100100101\n","output":"1\n101\n00\n01010000010100100101\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/asmit/Desktop/ProCoding/CFContests/CFR1113_DIV2/A.cpp","group":"local","local":true}

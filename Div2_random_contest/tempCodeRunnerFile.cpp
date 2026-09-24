@@ -1,0 +1,1 @@
+pow(2,__builtin_ctz(temp))
