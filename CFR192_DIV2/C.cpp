@@ -105,80 +105,38 @@ void solve()
     {
         cin >> a[i];
     }
-    vll num(n + 1, 0);
-    int add = 1;
-    num[a[0]]++;
-    for (int i = 1; i < n; i++)
-    {
-        num[a[i]]++;
-        if (a[i] > a[i - 1])
-        {
-            add++;
-        }
+    map<ll, ll> mp;
+    for(auto  i : a){
+        mp[i]++;
     }
-    sort(num.rbegin(), num.rend());
-    for (int i = 0; i < num.size() - 1; i++)
-    {
-        num[i] = max(0LL, num[i] - num[i + 1]);
+    vll freq;
+    for(auto ele: mp){
+        freq.push_back(ele.second);
     }
-    int j = num.size() - 1;
-    int aage = 0;
-    int peeche = 0;
-    int single = 0;
-    if (k >= n)
-    {
-        if ((k - n) % add == 0)
-        {
-            aage = 1;
+    sort(freq.rbegin(), freq.rend());
+    int curr = 0;
+    int sm = 0;
+    int i = 0;
+    int ans= 0;
+    while(i< freq.size()){
+        while(i+1 < freq.size() && freq[i+1] == freq[i]){
+            sm+= freq[i];
+            i++;  
         }
+        int temp = sm - (max(freq[i] - 1, 0LL) )*i;
+        temp++;
+        if(temp > k){
+        break;
+        }
+        if((k-temp)%(i+1) == 0){
+            ans++;
+        }
+        sm += freq[i];
+        i++;
     }
-    else
-    {
-        int i = num.size() - 1;
-        while (!num[i])
-        {
-            i--;
-        }
 
-        while (add > 0 && n > 0)
-        {
-            if (num[i] && add == 1)
-            {
-                single = 1;
-            }
-            int l = num[i];
-            if (!l)
-            {
-                add--;
-                l--;
-                continue;
-            }
-            for (int j = 1; j <= l; j++)
-            {
-                n = n - add;
-                if ((k - n) % add == 0)
-                {
-                    aage = 1;
-                }
-                if (n == k)
-                {
-                    peeche = 1;
-                }
-            }
-            add--;
-            i--;
-        }
+    cout<<ans<<endl;
     }
-    if (k == 1)
-    {
-        if (single)
-        {
-            cout << 1 << endl;
-            return;
-        }
-    }
-    cout << max(aage, peeche) + single << endl;
-}
 
 int main()
 {
