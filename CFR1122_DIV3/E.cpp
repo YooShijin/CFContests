@@ -50,12 +50,75 @@ template <class T, class V> void _print(map<T, V> v) {
     cerr << "[ "; for (auto i : v) { _print(i); cerr << " "; } cerr << "]";
 }
 
-void solve() {
+vector<int> spf(2e5 + 5);
+// vector<vector<int>> pf(2e5 + 5);
+void sieve() {
+    for (int i = 1; i < spf.size(); i++)
+        spf[i] = i;
+
+    for (int i = 2; 1LL * i * i < spf.size(); i++) {
+        if (spf[i] != i)
+            continue;
+
+        for (int j = i * i; j < spf.size(); j += i)
+            spf[j] = min(spf[j], i);
+    }
+    // for(int i = 2;i<spf.size(); i++){
+    //     long long num = i;
+    //     while(num>1){
+    //         int d = spf[num];
+    //         pf[i].push_back(d);
+    //         while(num%d== 0){
+    //             num = num/d;
+    //         }
+    //     }
+// }
 }
+
+void solve() {
+    ll n, k;
+    cin>>n>>k;
+    map<ll,ll> m;
+    ll mx = INT_MIN;
+    for(int i = 0; i<n; i++){
+        ll temp;
+        cin>>temp;
+        mx = max(mx, temp);
+        m[temp]++;
+    }
+    
+    vll dp(mx +1, INT_MAX);
+for (int i = 1; i <= mx; i++) {
+    if (i <= k) {
+        dp[i] = 0;
+        continue;
+    }
+
+    int x = i;
+
+    while (x > 1) {
+        int p = spf[x];
+
+        dp[i] = min(dp[i], 1LL + p * dp[i / p]);
+
+        while (x % p == 0)
+            x /= p;
+    }
+}
+    ll ans = 0;
+    for(auto ele : m){
+        auto [a,b] = ele;
+        ans += b*dp[a];
+    }
+
+    cout<<ans<<endl;
+}
+
 
 int main() {
     ios::sync_with_stdio(0);
     cin.tie(0);
+    sieve();
     int t = 1;
     cin >> t;
     while (t--) solve();

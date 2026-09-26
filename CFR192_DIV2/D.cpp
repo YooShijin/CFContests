@@ -100,23 +100,31 @@ void solve()
 {
     string s1, s2;
     cin >> s1 >> s2;
-    int sum1 = 0;
-    int sum2 = 0;
-    for (int i = 0; i < s1.size(); i++)
-    {
-        sum1 += (s1[i] - '0');
+    int m= s1.size();
+    int n = s2.size();
+    vll preo(m+1,0);
+    vll pret(n+1,0);
+    for(int i = 1;i<=m; i++){
+        preo[i] = ( preo[i-1] + (s1[i-1] - '0'))%10;
     }
-    for (int i = 0; i < s2.size(); i++)
-    {
-        sum2 += (s2[i] - '0');
+        for(int i = 1;i<=n; i++){
+        pret[i] = ( pret[i-1] + (s2[i-1] - '0'))%10;
     }
-
-    if (sum1 != sum2)
-    {
-        cout << -1 << endl;
+    if(preo[m] != pret[n]){
+        cout<<-1<<endl;
         return;
     }
-    ll n = s1.size
+    vector<vector<ll>> dp(m+1, vector<ll> (n+1,0));
+    for(int i = 1;i<=m; i++){
+        for(int j = 1; j<=n; j++){
+            if(preo[i] == pret[j]){
+                dp[i][j] = max(dp[i][j], dp[i-1][j-1] + 1);
+            }else{
+                dp[i][j] = max(dp[i][j-1], dp[i-1][j]);
+            }
+        }
+    }
+    cout<<dp[m][n]<<endl;
 }
 
 int main()

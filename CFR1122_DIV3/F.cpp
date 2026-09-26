@@ -16,7 +16,10 @@ using namespace std;
 #define RFOR(i, a, b) for (ll i = a; i > b; i--)
 
 #ifndef ONLINE_JUDGE
-#define debug(x) cerr << #x << " = "; _print(x); cerr << endl;
+#define debug(x)         \
+    cerr << #x << " = "; \
+    _print(x);           \
+    cerr << endl;
 #else
 #define debug(x)
 #endif
@@ -28,36 +31,152 @@ void _print(char x) { cerr << x; }
 void _print(string x) { cerr << x; }
 void _print(bool x) { cerr << (x ? "true" : "false"); }
 
-template <class T, class V> void _print(pair<T, V> p);
-template <class T> void _print(vector<T> v);
-template <class T> void _print(set<T> v);
-template <class T, class V> void _print(map<T, V> v);
-template <class T> void _print(multiset<T> v);
+template <class T, class V>
+void _print(pair<T, V> p);
+template <class T>
+void _print(vector<T> v);
+template <class T>
+void _print(set<T> v);
+template <class T, class V>
+void _print(map<T, V> v);
+template <class T>
+void _print(multiset<T> v);
 
-template <class T, class V> void _print(pair<T, V> p) {
-    cerr << "{"; _print(p.ff); cerr << ", "; _print(p.ss); cerr << "}";
+template <class T, class V>
+void _print(pair<T, V> p)
+{
+    cerr << "{";
+    _print(p.ff);
+    cerr << ", ";
+    _print(p.ss);
+    cerr << "}";
 }
-template <class T> void _print(vector<T> v) {
-    cerr << "[ "; for (T i : v) { _print(i); cerr << " "; } cerr << "]";
+template <class T>
+void _print(vector<T> v)
+{
+    cerr << "[ ";
+    for (T i : v)
+    {
+        _print(i);
+        cerr << " ";
+    }
+    cerr << "]";
 }
-template <class T> void _print(set<T> v) {
-    cerr << "[ "; for (T i : v) { _print(i); cerr << " "; } cerr << "]";
+template <class T>
+void _print(set<T> v)
+{
+    cerr << "[ ";
+    for (T i : v)
+    {
+        _print(i);
+        cerr << " ";
+    }
+    cerr << "]";
 }
-template <class T> void _print(multiset<T> v) {
-    cerr << "[ "; for (T i : v) { _print(i); cerr << " "; } cerr << "]";
+template <class T>
+void _print(multiset<T> v)
+{
+    cerr << "[ ";
+    for (T i : v)
+    {
+        _print(i);
+        cerr << " ";
+    }
+    cerr << "]";
 }
-template <class T, class V> void _print(map<T, V> v) {
-    cerr << "[ "; for (auto i : v) { _print(i); cerr << " "; } cerr << "]";
+template <class T, class V>
+void _print(map<T, V> v)
+{
+    cerr << "[ ";
+    for (auto i : v)
+    {
+        _print(i);
+        cerr << " ";
+    }
+    cerr << "]";
 }
 
-void solve() {
+void solve()
+{
+    ll n;
+    cin >> n;
+    map<ll, ll> mp;
+    int lim = n + 75;
+    ll mx = LLONG_MIN;
+    ll extra = 0;
+    for (int i = 0; i < n; i++)
+    {
+        ll num, cnt;
+        cin >> num >> cnt;
+        mx = max(mx, num);
+        if (num >= lim)
+        {
+            extra += cnt;
+        }
+        mp[num] = cnt;
+    }
+
+    auto isp = [&](ll k, ll ext)
+    {
+        ll need = 1;
+        for (ll i = lim; i > 0; i--)
+        {
+            ll x = mp[i];
+            if (i >= k)
+            {
+                ext += x;
+                continue;
+            }
+
+            if (!mp.count(i))
+            {
+                if(need>= LLONG_MAX/3){
+                    return false;
+                }
+                need = 2LL * need;
+            }
+            else
+            {
+               ;
+                if (x >= need)
+                {
+                    ext += x - need;
+                }
+                else
+                {
+                     if(need>= LLONG_MAX/2){
+                    return false;
+                }
+                    need = 2LL * need - x;
+                }
+            }
+        }
+        return (mp[0] + ext) >= need ? true : false;
+    };
+    ll i = 0;
+    ll j = n + 75;
+    while (j > i + 1)
+    {
+        ll m = (i + j) / 2;
+        if (isp(m, extra))
+        {
+            i = m;
+        }
+        else
+        {
+            j = m;
+        }
+    }
+    cout << max(mx, i) << endl;
 }
 
-int main() {
+int main()
+{
     ios::sync_with_stdio(0);
     cin.tie(0);
     int t = 1;
     cin >> t;
-    while (t--) solve();
+    while (t--)
+        solve();
     return 0;
 }
