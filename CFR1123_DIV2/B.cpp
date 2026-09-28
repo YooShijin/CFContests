@@ -111,25 +111,13 @@ void solve()
 
     for (int i = 100; i >= 1; i--)
     {
-        if (freq[i] == 0)
+    
+        for (int j = i; j >= 1; j--)
         {
-            continue;
-        }
-        int b = freq[i];
-
-        for (int c = 0; c < b; c++)
-        {
-            cout << i << " ";
-            freq[i]--;
-        }
-        for (int j = i - 1; j >= 1; j--)
-        {
-            int a = freq[j];
-            for (int c = 0; c < min(a, b); c++)
-            {
-                cout << j << " ";
-                freq[j]--;
-            }
+              if(freq[j]){ cout << j << " ";
+                freq[j]--;}
+               
+            
         }
     }
     cout << endl;

@@ -99,103 +99,59 @@ void _print(map<T, V> v)
     }
     cerr << "]";
 }
-
-const int MX = 300001;
-ll tot[MX], sum[MX], dp[MX];
-bool has[MX];
-
-vll divisor(int x)
-{
-    vll div;
-
-    for (int d = 1; 1LL * d * d <= x; d++)
-    {
-        if (x % d == 0)
-        {
-            div.push_back(d);
-
-            if (d * d != x)
-            {
-                div.push_back(x / d);
-            }
-        }
+vll spf(3e5+1);
+void init(){
+    for(int i = 1; i< spf.size(); i++){
+        spf[i] = i;
     }
 
-    sort(div.begin(), div.end());
-
-    return div;
+    for(int i  =2; i*i < spf.size(); i++){
+        for(int j = i; j< spf.size(); j+= i){
+            spf[j] = min(spf[j], i*1LL);
+        }
+    }
 }
-
 void solve()
 {
-    int n, x;
+    ll n, x;
     cin >> n >> x;
 
-    vi a(n);
-
-    vll div = divisor(x);
-
-    for (int d : div)
+    vll a(n);
+    for (auto &i : a)
     {
-        tot[d] = 0;
-        sum[d] = 0;
-        dp[d] = 0;
-        has[d] = false;
+        cin >> i;
     }
-
-    for (int i = 0; i < n; i++)
-    {
-        cin >> a[i];
-        int h = gcd(a[i], x);
-        tot[h] += a[i];
-        has[h] = true;
-    }
-
-    vi hs;
-    for (int d : div)
-    {
-        if (has[d])
-            hs.pb(d);
-    }
-
-    for (int d : div)
-    {
-        for (int h : hs)
+    ll ans = 0;
+    ll num = x;
+    ll i = spf[num];
+        while (i>1)
         {
-            if (h % d == 0)
-                sum[d] += tot[h];
-        }
-    }
-
-    for (int d : div)
-    {
-        if (d == 1)
-        {
-            dp[d] = 0;
-            continue;
-        }
-
-        dp[d] = sum[d];
-
-        for (int h : hs)
-        {
-            int g = gcd(h, d);
-
-            if (g > 1 && g < d)
+            ll temp = 0;
+            while (num % i == 0)
             {
-                dp[d] = max(dp[d], dp[g]);
+                num = num / i;
             }
+            for (auto ele : a)
+            {
+                if ((ele % i) == 0)
+                {
+                    temp += ele;
+                }
+                ans = max(ans, temp);
+            }
+            i = spf[num];
         }
-    }
 
-    cout << dp[x] << endl;
+
+    cout << ans << endl;
+    return;
 }
 
 int main()
 {
     ios::sync_with_stdio(0);
     cin.tie(0);
-
+    init();
     int t = 1;
     cin >> t;
 
