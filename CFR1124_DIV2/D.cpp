@@ -95,51 +95,43 @@ void _print(map<T, V> v)
     }
     cerr << "]";
 }
-
+inline bool good(int x)
+{
+    return __builtin_popcount(x) % 2 == 0;
+}
 void solve()
 {
-    // for (int i = 0; i < 16; i++)
-    // {
-    //     for (int j = 3; j <= 15; j = j + 3)
-    //     {
-    //         cout << i << " " << j << " -->" << (i ^ j) << endl;
-    //     }
-    // }
-
     ll n;
     cin >> n;
     ll q;
     cin >> q;
     vll a(n, 0);
-    vll ans(16, 0);
-    for (auto &x : a)
+    int sum = 0;
+    for (auto &v : a)
     {
-        cin >> x;
-        ans[x]++;
+        cin >> v;
+        if (good(v))
+            sum++;
     }
-    set<int> s = {1, 2, 13, 14, 4, 7, 8};
-    ll sum = 0;
-    for (int i = 1; i <= 15; i++)
-    {
-        if (s.find(i) == s.end())
-        {
-            sum += ans[i];
-        }
-    }
+
     cout << sum << " ";
     while (q--)
     {
         ll ind, val;
         cin >> ind >> val;
-
-        sum -= a[ind - 1];
+        if (good(a[ind-1]))
+        {
+            sum--;
+        }
         a[ind - 1] = val;
-        if (s.find(val) == s.end())
+        if (good(a[ind-1]))
         {
             sum++;
         }
-        sum
+        cout << sum << " ";
     }
+    cout << endl;
+    return;
 }
 
 int main()
@@ -147,7 +139,7 @@ int main()
     ios::sync_with_stdio(0);
     cin.tie(0);
     int t = 1;
-    // cin >> t;
+    cin >> t;
     while (t--)
         solve();
     return 0;
